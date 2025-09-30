@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: e51cd255fda34184aca695de3da32724
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 625f186215c104763be7675aa2d941aa, type: 3}
+AssetOrigin:
+  serializedVersion: 1
+  productId: 216360
+  packageName: Stylized Cannon (Hand Painting)
+  packageVersion: 1.2
+  assetPath: Assets/Stylized Cannon/Shader/SC_1.shadergraph
+  uploadId: 741110

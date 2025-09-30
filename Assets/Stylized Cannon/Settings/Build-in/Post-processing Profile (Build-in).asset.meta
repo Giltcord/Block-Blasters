@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4108f829ad4147528547fed66b3a73d4
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 216360
+  packageName: Stylized Cannon (Hand Painting)
+  packageVersion: 1.2
+  assetPath: Assets/Stylized Cannon/Settings/Build-in/Post-processing Profile (Build-in).asset
+  uploadId: 741110

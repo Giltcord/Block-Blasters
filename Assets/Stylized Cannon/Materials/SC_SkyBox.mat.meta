@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 2c43525ec69d4668bdb1ca13c1118d0e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 216360
+  packageName: Stylized Cannon (Hand Painting)
+  packageVersion: 1.2
+  assetPath: Assets/Stylized Cannon/Materials/SC_SkyBox.mat
+  uploadId: 741110
