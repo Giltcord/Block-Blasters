@@ -18,7 +18,6 @@ public class Mouse : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
-
     void Update()
     {
         HandleMouseRotation();
@@ -33,7 +32,6 @@ public class Mouse : MonoBehaviour
             Cursor.visible = true;
         }
     }
-
         void HandleMouseRotation()
         {
             float mouseX = Input.GetAxis("Mouse X") * horizontalSpeed;

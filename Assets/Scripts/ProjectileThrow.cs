@@ -1,20 +1,18 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.Time;
 
 [RequireComponent(typeof(TrajectoryPredictor))]
 public class ProjectileThrow : MonoBehaviour
 {
     TrajectoryPredictor trajectoryPredictor;
-
     [SerializeField] Rigidbody objectToThrow;
     [SerializeField, Range(0.0f, 500.0f)] float force;
     [SerializeField] Transform StartPosition;
-
     public InputAction fire;
     bool isThrown = false;
     private float throwTime;
     private bool isEnabled = false;
-
     void Awake()
     {
         trajectoryPredictor = GetComponent<TrajectoryPredictor>();
@@ -22,43 +20,36 @@ public class ProjectileThrow : MonoBehaviour
         if (StartPosition == null)
             StartPosition = transform;
     }
-
     void OnEnable()
     {
         EnableInput();
     }
-
     void OnDisable()
     {
         DisableInput();
     }
-
     void OnDestroy()
     {
-        // Extra safety cleanup
         DisableInput();
     }
-
     void Update()
     {
         Predict();
         if (isThrown)
         {
-            float timeSinceThrow = Time.time - throwTime;
+            float timeSinceThrow = time - throwTime;
             UpdateVisualsBasedOnTime(timeSinceThrow);
         }
     }
-
     void Predict()
     {
         if (trajectoryPredictor != null)
             trajectoryPredictor.PredictTrajectory(ProjectileData());
     }
-
     ProjectileProperties ProjectileData()
     {
         ProjectileProperties properties = new ProjectileProperties();
-        
+    
         if (objectToThrow != null)
         {
             Rigidbody r = objectToThrow.GetComponent<Rigidbody>();
@@ -67,18 +58,17 @@ public class ProjectileThrow : MonoBehaviour
             properties.initialSpeed = force;
             properties.mass = r.mass;
             properties.drag = r.linearDamping;
+            
         }
-        
+    
         return properties;
     }
-
     private void ThrowObject(InputAction.CallbackContext ctx)
     {
-        // Safety check - ensure we're still enabled and valid
         if (this == null || !isEnabled) return;
         
         isThrown = false;
-        throwTime = Time.time;
+        throwTime = time;
         
         if (objectToThrow != null && StartPosition != null)
         {
@@ -87,7 +77,6 @@ public class ProjectileThrow : MonoBehaviour
             isThrown = true;
         }
     }
-
     private void UpdateVisualsBasedOnTime(float timeSinceThrow)
     {
         Renderer renderer = GetComponent<Renderer>();
@@ -99,8 +88,6 @@ public class ProjectileThrow : MonoBehaviour
             renderer.material.color = objectColor;
         }
     }
-
-    // Public methods to control input state
     public void EnableInput()
     {
         if (isEnabled) return;
@@ -118,8 +105,6 @@ public class ProjectileThrow : MonoBehaviour
         fire.Disable();
         isEnabled = false;
     }
-
-    // Call this when you want to manually disable throwing (like when menu is open)
     public void SetThrowingEnabled(bool enabled)
     {
         if (enabled)

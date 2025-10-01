@@ -7,7 +7,4 @@ public struct ProjectileProperties
     public float initialSpeed;
     public float mass;
     public float drag;
-
-
-
 }
