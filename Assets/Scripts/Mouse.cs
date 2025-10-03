@@ -21,7 +21,6 @@ public class Mouse : MonoBehaviour
     void Update()
     {
         HandleMouseRotation();
-        
         transform.rotation = Quaternion.Slerp(transform.rotation, 
             Quaternion.Euler(targetRotation), 
             rotationSmoothing * Time.deltaTime);
@@ -36,15 +35,12 @@ public class Mouse : MonoBehaviour
         {
             float mouseX = Input.GetAxis("Mouse X") * horizontalSpeed;
             float mouseY = Input.GetAxis("Mouse Y") * verticalSpeed * (invertVertical ? -1 : 1);
-
             currentRotation.y += mouseX;
             currentRotation.x -= mouseY;
-
             if (clampVerticalRotation)
             {
                 currentRotation.x = Mathf.Clamp(currentRotation.x, minVerticalAngle, maxVerticalAngle);
             }
-
             transform.rotation = Quaternion.Euler(currentRotation);
         }
     }

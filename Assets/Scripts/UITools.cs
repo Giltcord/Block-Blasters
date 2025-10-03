@@ -1,4 +1,3 @@
-using Mono.Cecil;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,8 +20,7 @@ public class TimerSystem : MonoBehaviour
     public Button nextLevelButton;
     
     [Header("Game Objects")]
-    public GameObject player; // Reference to player or game objects to control
-    
+    public GameObject player; 
     private float currentTime;
     private bool timerRunning = false;
     private bool gameEnded = false;
@@ -63,12 +61,10 @@ public class TimerSystem : MonoBehaviour
     
     void UpdateTimerDisplay()
     {
-        // Update timer text (format: MM:SS)
         int minutes = Mathf.FloorToInt(currentTime / 60f);
         int seconds = Mathf.FloorToInt(currentTime % 60f);
         timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
         
-        // Update slider
         if (timerSlider != null)
         {
             timerSlider.value = currentTime / totalTime;
@@ -92,7 +88,6 @@ public class TimerSystem : MonoBehaviour
         UpdateTimerDisplay();
     }
     
-    // Call this when player completes level successfully
     public void LevelCompleted()
     {
         if (!gameEnded)
@@ -105,14 +100,12 @@ public class TimerSystem : MonoBehaviour
     {
         timerRunning = false;
         gameEnded = true;
-    
-        // Show menu panel
         menuPanel.SetActive(true);
     
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     
-        // Set result text
+       
         if (levelCompleted)
         {
             resultText.text = "Level Complete!";
@@ -128,24 +121,20 @@ public class TimerSystem : MonoBehaviour
             resultText.color = Color.red;
             nextLevelButton.interactable = true;
         }
-    
-        // Optional: Pause game logic
         Time.timeScale = 0f;
     }
     
-    // Button Functions
     public void RetryLevel()
     {
-        Time.timeScale = 1f; // Resume normal time
+        Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     
     public void GoToMainMenu()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("MainMenu"); // Replace with your main menu scene name
+        SceneManager.LoadScene("MainMenu"); 
     }
-    
     public void GoToNextLevel()
     {
         Time.timeScale = 1f;
@@ -164,13 +153,10 @@ public class TimerSystem : MonoBehaviour
             SceneManager.LoadScene("MainMenu");
         }
     }
-    
-    // For debugging purposes
     public void CompleteLevelDebug()
     {
         LevelCompleted();
     }
-    
     public void FailLevelDebug()
     {
         TimerEnded(false);

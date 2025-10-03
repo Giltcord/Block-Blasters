@@ -98,7 +98,6 @@ public class PlayerStats : MonoBehaviour
     {
         UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
     }
-    
     private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
     {
         currentLevelCollisions = 0;
@@ -145,8 +144,6 @@ public class PlayerStats : MonoBehaviour
         }
         UpdateDisplay();
     }
-    
-    // Call this when a level is completed
     public void LevelCompleted()
     {
         completedLevels++;
@@ -157,7 +154,6 @@ public class PlayerStats : MonoBehaviour
         SaveStats();
         UpdateDisplay();
     }
-    
     private void UpdateDisplay()
     {
         if (totalCollisionsText != null)
@@ -173,7 +169,6 @@ public class PlayerStats : MonoBehaviour
             levelCompletionText.text = $"Levels Completed: {completedLevels}";
         }
     }
-    
     public int GetTotalCollisions() { return totalCollisions; }
     public int GetCurrentLevelCollisions() { return currentLevelCollisions; }
     public int GetCompletedLevels() { return completedLevels; }
@@ -190,7 +185,6 @@ public class PlayerStats : MonoBehaviour
         PlayerPrefs.SetString("LevelCollisions", levelData);
         PlayerPrefs.Save();
     }
-    
     public void LoadStats()
     {
         totalCollisions = PlayerPrefs.GetInt("TotalCollisions", 0);

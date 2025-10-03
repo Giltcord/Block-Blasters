@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 [RequireComponent(typeof(LineRenderer))]
@@ -15,7 +14,6 @@ public class TrajectoryPredictor : MonoBehaviour
     [SerializeField, Range(1.05f, 2f), Tooltip("The raycast overlap between points in the trajectory, this is a multiplier of the length between points. 2 = twice as long")]
     float rayOverlap = 1.1f;
     #endregion
-
     private void Start()
     {
         if (trajectoryLine == null)
@@ -23,7 +21,6 @@ public class TrajectoryPredictor : MonoBehaviour
 
         SetTrajectoryVisible(true);
     }
-
     public void PredictTrajectory(ProjectileProperties projectile)
     {
         Vector3 velocity =  projectile.direction * (projectile.initialSpeed / projectile.mass);
@@ -41,7 +38,6 @@ public class TrajectoryPredictor : MonoBehaviour
             if (Physics.Raycast(position, velocity.normalized, out RaycastHit hit, overlap))
             {
                 UpdateLineRender(i, (i - 1, hit.point));
-                MoveHitMarker(hit);
                 break;
             }
             hitMarker.gameObject.SetActive(false);
@@ -59,13 +55,6 @@ public class TrajectoryPredictor : MonoBehaviour
         velocity += Physics.gravity * increment;
         velocity *= Mathf.Clamp01(1f - drag * increment);
         return velocity;
-    }
-    private void MoveHitMarker(RaycastHit hit)
-    {
-        hitMarker.gameObject.SetActive(true);
-        float offset = 0.025f;
-        hitMarker.position = hit.point + hit.normal * offset;
-        hitMarker.rotation = Quaternion.LookRotation(hit.normal, Vector3.up);
     }
     public void SetTrajectoryVisible(bool visible)
     {

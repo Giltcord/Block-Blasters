@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public struct ProjectileProperties
 {
     public Vector3 direction;

@@ -58,18 +58,14 @@ public class ProjectileThrow : MonoBehaviour
             properties.initialSpeed = force;
             properties.mass = r.mass;
             properties.drag = r.linearDamping;
-            
         }
-    
         return properties;
     }
     private void ThrowObject(InputAction.CallbackContext ctx)
     {
         if (this == null || !isEnabled) return;
-        
         isThrown = false;
         throwTime = time;
-        
         if (objectToThrow != null && StartPosition != null)
         {
             Rigidbody thrownObject = Instantiate(objectToThrow, StartPosition.position, Quaternion.identity);
@@ -96,7 +92,6 @@ public class ProjectileThrow : MonoBehaviour
         fire.performed += ThrowObject;
         isEnabled = true;
     }
-
     public void DisableInput()
     {
         if (!isEnabled) return;
@@ -104,12 +99,5 @@ public class ProjectileThrow : MonoBehaviour
         fire.performed -= ThrowObject;
         fire.Disable();
         isEnabled = false;
-    }
-    public void SetThrowingEnabled(bool enabled)
-    {
-        if (enabled)
-            EnableInput();
-        else
-            DisableInput();
     }
 }
