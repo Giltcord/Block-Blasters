@@ -27,19 +27,19 @@ public class TimerSystem : MonoBehaviour
     
     void Start()
     {
-        // Initialize timer
+        
         currentTime = totalTime;
         UpdateTimerDisplay();
         
-        // Hide menu panel at start
+        
         menuPanel.SetActive(false);
         
-        // Setup button listeners
+        
         retryButton.onClick.AddListener(RetryLevel);
         mainMenuButton.onClick.AddListener(GoToMainMenu);
         nextLevelButton.onClick.AddListener(GoToNextLevel);
         
-        // Start the timer
+       
         StartTimer();
     }
     
@@ -50,11 +50,11 @@ public class TimerSystem : MonoBehaviour
             currentTime -= Time.deltaTime;
             UpdateTimerDisplay();
             
-            // Check if time runs out
+            
             if (currentTime <= 0f)
             {
                 currentTime = 0f;
-                TimerEnded(false); // Time ran out - player failed
+                TimerEnded(true); 
             }
         }
     }
