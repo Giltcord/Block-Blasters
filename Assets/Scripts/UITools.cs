@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class TimerSystem : MonoBehaviour
 {
     [Header("Timer Settings")]
-    public float totalTime = 60f; // Total time in seconds
+    public float totalTime = 60f; 
     public TextMeshProUGUI timerText;
     public Slider timerSlider;
     
@@ -27,19 +27,12 @@ public class TimerSystem : MonoBehaviour
     
     void Start()
     {
-        
         currentTime = totalTime;
         UpdateTimerDisplay();
-        
-        
         menuPanel.SetActive(false);
-        
-        
         retryButton.onClick.AddListener(RetryLevel);
         mainMenuButton.onClick.AddListener(GoToMainMenu);
         nextLevelButton.onClick.AddListener(GoToNextLevel);
-        
-       
         StartTimer();
     }
     
@@ -49,8 +42,6 @@ public class TimerSystem : MonoBehaviour
         {
             currentTime -= Time.deltaTime;
             UpdateTimerDisplay();
-            
-            
             if (currentTime <= 0f)
             {
                 currentTime = 0f;
@@ -58,36 +49,19 @@ public class TimerSystem : MonoBehaviour
             }
         }
     }
-    
     void UpdateTimerDisplay()
     {
         int minutes = Mathf.FloorToInt(currentTime / 60f);
         int seconds = Mathf.FloorToInt(currentTime % 60f);
         timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
         
-        if (timerSlider != null)
-        {
-            timerSlider.value = currentTime / totalTime;
-        }
+        if (timerSlider != null) timerSlider.value = currentTime / totalTime;
     }
-    
     public void StartTimer()
     {
         timerRunning = true;
         gameEnded = false;
     }
-    
-    public void StopTimer()
-    {
-        timerRunning = false;
-    }
-    
-    public void AddTime(float timeToAdd)
-    {
-        currentTime += timeToAdd;
-        UpdateTimerDisplay();
-    }
-    
     public void LevelCompleted()
     {
         if (!gameEnded)
@@ -95,24 +69,18 @@ public class TimerSystem : MonoBehaviour
             TimerEnded(true);
         }
     }
-
     private void TimerEnded(bool levelCompleted)
     {
         timerRunning = false;
         gameEnded = true;
         menuPanel.SetActive(true);
-    
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-    
-       
         if (levelCompleted)
         {
             resultText.text = "Level Complete!";
             resultText.color = Color.green;
             nextLevelButton.interactable = true;
-        
-            // Notify PlayerStats that level was completed
             PlayerStats.Instance.LevelCompleted();
         }
         else
@@ -123,7 +91,6 @@ public class TimerSystem : MonoBehaviour
         }
         Time.timeScale = 0f;
     }
-    
     public void RetryLevel()
     {
         Time.timeScale = 1f;
@@ -156,9 +123,5 @@ public class TimerSystem : MonoBehaviour
     public void CompleteLevelDebug()
     {
         LevelCompleted();
-    }
-    public void FailLevelDebug()
-    {
-        TimerEnded(false);
     }
 }
