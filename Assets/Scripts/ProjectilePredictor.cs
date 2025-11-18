@@ -14,13 +14,27 @@ public class TrajectoryPredictor : MonoBehaviour
     [SerializeField, Range(1.05f, 2f), Tooltip("The raycast overlap between points in the trajectory, this is a multiplier of the length between points. 2 = twice as long")]
     float rayOverlap = 1.1f;
     #endregion
-    private void Start()
-    {
-        if (trajectoryLine == null)
-            trajectoryLine = GetComponent<LineRenderer>();
-
-        SetTrajectoryVisible(true);
-    }
+   private void Start()
+   {
+       if (trajectoryLine == null)
+           trajectoryLine = GetComponent<LineRenderer>();
+   
+       // Auto-create hit marker if not assigned
+       if (hitMarker == null)
+       {
+           GameObject marker = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+           marker.name = "AutoCreatedHitMarker";
+           marker.transform.localScale = Vector3.one * 0.1f;
+           hitMarker = marker.transform;
+           
+           // Remove collider if not needed
+           Collider collider = marker.GetComponent<Collider>();
+           if (collider != null)
+               Destroy(collider);
+       }
+   
+       SetTrajectoryVisible(true);
+   }
     public void PredictTrajectory(ProjectileProperties projectile)
     {
         Vector3 velocity =  projectile.direction * (projectile.initialSpeed / projectile.mass);

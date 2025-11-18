@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Block
+  - Audio
   layers:
   - Default
   - TransparentFX

@@ -88,6 +88,7 @@ public class PlayerStats : MonoBehaviour
         {
             statsPanel.SetActive(true);
         }
+        ConfirmResetStats();
     }
     void OnEnable()
     {

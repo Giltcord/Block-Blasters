@@ -13,6 +13,7 @@ public class ProjectileThrow : MonoBehaviour
     bool isThrown = false;
     private float throwTime;
     private bool isEnabled = false;
+   AudioManager audioManager;
     void Awake()
     {
         trajectoryPredictor = GetComponent<TrajectoryPredictor>();
@@ -61,7 +62,7 @@ public class ProjectileThrow : MonoBehaviour
         }
         return properties;
     }
-    private void ThrowObject(InputAction.CallbackContext ctx)
+    public void ThrowObject(InputAction.CallbackContext ctx)
     {
         if (this == null || !isEnabled) return;
         isThrown = false;
@@ -72,6 +73,7 @@ public class ProjectileThrow : MonoBehaviour
             thrownObject.AddForce(StartPosition.forward * force, ForceMode.Impulse);
             isThrown = true;
         }
+       
     }
     private void UpdateVisualsBasedOnTime(float timeSinceThrow)
     {
@@ -99,5 +101,13 @@ public class ProjectileThrow : MonoBehaviour
         fire.performed -= ThrowObject;
         fire.Disable();
         isEnabled = false;
+    }
+    private void TryFindAudioManager()
+    {
+        audioManager = FindObjectOfType<AudioManager>();
+        if (audioManager != null)
+        {
+            Debug.Log("AudioManager found and assigned");
+        }
     }
 }

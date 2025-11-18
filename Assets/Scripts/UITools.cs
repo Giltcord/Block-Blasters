@@ -1,8 +1,10 @@
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-
+using DG.Tweening;
 public class TimerSystem : MonoBehaviour
 {
     [Header("Timer Settings")]
@@ -25,6 +27,11 @@ public class TimerSystem : MonoBehaviour
     private bool timerRunning = false;
     private bool gameEnded = false;
     
+    public float fadetime = 1f;
+    public CanvasGroup canvasGroup;
+    public RectTransform rectTransform;
+    public List<GameObject> items = new List<GameObject>();
+    AudioManager audioManager;
     void Start()
     {
         currentTime = totalTime;
@@ -71,9 +78,11 @@ public class TimerSystem : MonoBehaviour
     }
     private void TimerEnded(bool levelCompleted)
     {
+        
         timerRunning = false;
         gameEnded = true;
         menuPanel.SetActive(true);
+       
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         if (levelCompleted)
@@ -82,6 +91,7 @@ public class TimerSystem : MonoBehaviour
             resultText.color = Color.green;
             nextLevelButton.interactable = true;
             PlayerStats.Instance.LevelCompleted();
+            
         }
         else
         {
@@ -89,11 +99,16 @@ public class TimerSystem : MonoBehaviour
             resultText.color = Color.red;
             nextLevelButton.interactable = true;
         }
-        Time.timeScale = 0f;
+        Time.timeScale = 1f;
+        PanelFadeIn();
+        
     }
     public void RetryLevel()
     {
+        
+        
         Time.timeScale = 1f;
+        
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     
@@ -120,8 +135,46 @@ public class TimerSystem : MonoBehaviour
             SceneManager.LoadScene("MainMenu");
         }
     }
-    public void CompleteLevelDebug()
+    public void PanelFadeIn()
     {
-        LevelCompleted();
+        // Safe access via singleton
+        if (AudioManager.Instance != null && AudioManager.Instance.LevelComplete != null)
+        {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.LevelComplete);
+        }
+        else
+        {
+            Debug.LogWarning("AudioManager instance or LevelComplete clip is null");
+        }
+    
+        canvasGroup.alpha = 0f;
+        rectTransform.transform.localPosition = new Vector3(0f, -1000f, 0f);
+        rectTransform.DOAnchorPos(new Vector2(0f, 0f), fadetime, false).SetEase(Ease.OutElastic);
+        canvasGroup.DOFade(1, fadetime);
+        StartCoroutine(ItemsAnimation());
+    }
+
+    public void PanelFadeOut()
+    {
+        canvasGroup.alpha = 1f;
+        rectTransform.transform.localPosition =new Vector3(0f, 0f, 0f);
+        rectTransform.DOAnchorPos(new Vector2(0f, -1000f), fadetime, false).SetEase(Ease.InOutQuint);
+        canvasGroup.DOFade(1, fadetime);
+        
+        
+    }
+
+    IEnumerator ItemsAnimation()
+    {
+        foreach (var item in items)
+        {
+            item.transform.localScale = Vector3.zero;
+        }
+
+        foreach (var item in items)
+        {
+            item.transform.DOScale(1f, fadetime).SetEase(Ease.OutBounce);
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 }
